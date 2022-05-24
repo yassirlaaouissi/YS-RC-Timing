@@ -1,4 +1,5 @@
 import sys, getopt
+from colorama import init, Fore, Back
 from termcolor import colored
 import pyfiglet
 from datetime import datetime
@@ -53,6 +54,9 @@ def main(argv):
     teamname = ''
     laps = ''
     variables = {}
+
+    ## Init colorama, zodat kleurtjes ook werken op windows
+    init()
 
     ## Probeer de command line arguments te parsen
     try:
