@@ -1,19 +1,7 @@
 import sys, getopt
 from termcolor import colored
 import pyfiglet
-import time
-
-
-
-def print_time(total_seconds):
-    total_mins = total_seconds / 60
-    seconds = int(total_seconds % 60)
-    hours = int(total_mins / 60)
-    mins = int(total_mins % 60)
-    print('Time spend: {}h:{}m:{}s'.format(hours, mins, seconds))
-    return '{}h:{}m:{}s'.format(hours, mins, seconds)
-
-
+from datetime import datetime
 
 
 
@@ -25,17 +13,17 @@ def per_lap(amount_of_laps):
         print(colored("\nLap " + str(i+1),'green'))
         if i == 0:
             input('Press enter to start: ')
-            start_time = time.time()
+            start_time = datetime.now()
         else:
             start_time = stop_time    
 
         print('counting time...')
 
         input('Press enter to stop: ')
-        stop_time = time.time()
+        stop_time = datetime.now()
 
-        timing = print_time(stop_time - start_time)
-        print(colored("Time lap " + str(i+1) + ": ",'yellow') + timing)
+        timing = stop_time - start_time
+        print(colored("Time lap " + str(i+1) + ": ",'yellow') + str(timing))
 
         
 
