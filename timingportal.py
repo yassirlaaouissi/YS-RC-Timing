@@ -1,6 +1,7 @@
 import sys, getopt
 from colorama import init, Fore, Back
 from termcolor import colored
+import json
 import pyfiglet
 from datetime import datetime
 
@@ -9,6 +10,7 @@ from datetime import datetime
 def per_lap(amount_of_laps):
     #print(colored("Press enter to start the timer", 'yellow'))
     laps = int(amount_of_laps)
+    laptimes = {}
 
     for i in range(laps):
         print(colored("\nLap " + str(i+1),'green'))
@@ -25,10 +27,18 @@ def per_lap(amount_of_laps):
 
         timing = stop_time - start_time
         print(colored("Time lap " + str(i+1) + ": ",'yellow') + str(timing))
+        laptimes["lap-"+str(i+1)] = str(timing)
 
-        
+    return laptimes    
 
     #print()
+
+
+def write_results(results_dictionary):
+    print(results_dictionary)
+    with open('results.json', 'a') as outfile:
+        outfile.write(results_dictionary)
+
 
 def run_timer(variables):
     """Running the timer"""
@@ -36,17 +46,17 @@ def run_timer(variables):
     banner = pyfiglet.figlet_format("TimingPortal")
 
     print(banner)
+    boat_timings = {}
     for entry in variables:
         print(colored(str(entry), 'green') + ": " + variables.get(entry))
+        boat_timings[entry] = variables.get(entry)
+        if entry == "laps":
+            lap_timings = per_lap(variables.get("laps"))
+            boat_timings["lap_timings"] = lap_timings
+    write_results(json.dumps(boat_timings, indent=4))
     print('\n')
 
-    per_lap(variables.get("laps"))
-
-
-
-    
-
-
+   
 
 def main(argv):
     """Deze functie runned als eerste van dit script"""
